@@ -30,6 +30,10 @@
     <!-- Perso styles for this template-->
     <link href="css/style.css" rel="stylesheet">
 
+    <script src="./js/jquery-3.3.1.min.js"></script>
+    <!-- js verification  -->
+    <script src="js/script.js"></script>
+
 
   </head>
 

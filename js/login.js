@@ -19,12 +19,14 @@ $(document).ready(function(){
 	      url : 'http://192.168.33.10/gestap.io-fo/test.txt',
 	      type: 'GET',
 	      data : json,
-	  }).done(function(result){
-			console.log('result login : ', result)
-				if(result == "banana")
-	      	window.location.href = "http://google.com";
-				else
-					alert('wrong username or password');
+	  }).done(function(result) {
+			result = true;
+			if(result == true) {
+				sessionStorage.setItem('username', json['login']);
+	    	window.location.href = "dashboard.php";
+			} else {
+				alert('Wrong username or password');
+			}
 	  });
 	});
 
@@ -39,12 +41,14 @@ $(document).ready(function(){
 	      url : 'http://192.168.33.10/gestap.io-fo/test.txt',
 	      type: 'GET',
 	      data : json,
-	  }).done(function(result){
-			console.log('result signup : ', result)
-				if(result == "banana")
-	      	window.location.href = "http://google.com";
-				else
-					alert('An error occured. Please try again or contact administrator.');
+	  }).done(function(result) {
+			result = true;
+			if(result == true) {
+				sessionStorage.setItem('username', json['login']);
+				window.location.href = "dashboard.php";
+			} else {
+				alert('An error occured. Please try again or contact administrator.');
+			}
 	  });
 	});
 
