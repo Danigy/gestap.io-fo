@@ -20,13 +20,15 @@ $(document).ready(function(){
 	      type: 'GET',
 	      data : json,
 	  }).done(function(result){
-				if(result == true)
+			console.log('result login : ', result)
+				if(result == "banana")
 	      	window.location.href = "http://google.com";
 				else
 					alert('wrong username or password');
 	  });
 	});
 
+	// Appel Ajax pour s'inscrire
 	$("#signupForm").submit(function(event){
 		event.preventDefault(); //prevent default action
 		var json = {};
@@ -38,7 +40,8 @@ $(document).ready(function(){
 	      type: 'GET',
 	      data : json,
 	  }).done(function(result){
-				if(result == true)
+			console.log('result signup : ', result)
+				if(result == "banana")
 	      	window.location.href = "http://google.com";
 				else
 					alert('An error occured. Please try again or contact administrator.');
