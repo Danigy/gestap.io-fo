@@ -14,7 +14,7 @@
         <div class="tab-pane active" id="login">
           <form id="loginForm" class="form-horizontal login-form" method="post" action="">
             <div class="form-group relative">
-              <input class="form-control input-lg" id="login_username" placeholder="Login" required type="text"> <i class="fa fa-user"></i>
+              <input class="form-control input-lg" id="login_email" placeholder="Email" required type="email"> <i class="fa fa-user"></i>
             </div>
             <div class="form-group relative">
               <input class="form-control input-lg" id="login_password" placeholder="Password" required type="password"> <i class="fa fa-lock"></i>
@@ -27,7 +27,10 @@
         <div class="tab-pane" id="sign_up">
           <form id="signupForm" class="form-horizontal login-form" method="post" action="">
             <div class="form-group relative">
-              <input class="form-control input-lg" id="signup_username" placeholder="Login" required type="text"> <i class="fa fa-user"></i>
+              <input class="form-control input-lg" id="signup_firstname" placeholder="First Name" required type="text"> <i class="fa fa-user"></i>
+            </div>
+            <div class="form-group relative">
+              <input class="form-control input-lg" id="signup_lastname" placeholder="Last Name" required type="text"> <i class="fa fa-user"></i>
             </div>
             <div class="form-group relative">
               <input class="form-control input-lg" id="signup_email" placeholder="E-mail Address" required type="email"> <i class="fa fa-user"></i>
@@ -130,7 +133,7 @@ ul.switcher li {
   background: rgba(57, 89, 116, 0.8);
   position: relative;
   box-shadow: 0px 30px 60px -5px #000;
-  background-image: url('http://www.planwallpaper.com/static/images/colorful-triangles-background_yB0qTG6.jpg');
+  background-image: url('../assets/login_background.jpg');
   background-size: cover;
   background-blend-mode: saturation;
 }

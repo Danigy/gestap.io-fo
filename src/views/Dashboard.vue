@@ -13,6 +13,11 @@ export default {
     HelloWorld
   }
 }
+
+$(document).ready(function() {
+  if (sessionStorage.getItem('email') == null)
+    window.location.href = "/"
+});
 </script>
 
 <style>
