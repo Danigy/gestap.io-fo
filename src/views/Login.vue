@@ -50,8 +50,7 @@
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
+
 import Loginjs from '@/components/Loginjs.vue'
 
 const axios = require('axios')
@@ -59,7 +58,6 @@ const axios = require('axios')
 export default {
   name: 'Login',
   components: {
-    HelloWorld,
     Loginjs
   }
 }
