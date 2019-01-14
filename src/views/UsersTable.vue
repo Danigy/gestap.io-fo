@@ -1,7 +1,7 @@
 <template>
 <div>
   <h1>Users</h1>
-  <button class="addButton" @click="addUser()"><img src="../assets/open-iconic/svg/plus.svg"></button>
+  <button class="addButton" @click="showModalCreate()"><img src="../assets/open-iconic/svg/plus.svg"></button>
   <!-- Modal Create -->
   <div id="modalCreate" hidden="true" class="modal-dialog" role="document">
     <div class="modal-content">
@@ -135,12 +135,17 @@ export default {
         'firstname': $('#firstnameCreate')[0].value,
         'lastname': $('#lastnameCreate')[0].value,
         'email': $('#emailCreate')[0].value,
+        'password': "",
         'birthday': $('#birthdayCreate')[0].value,
-        'rfid': $('#rfidCreate')[0].value.split(',')
+        'rfid': $('#rfidCreate')[0].value.split(','),
+        'admin': 0
       }
-      const url = `http://vps.quentinmodena.fr:2999/users/create`
-      axios.put(url, jsonCreate)
-      return location.reload()
+      const url = `http://vps.quentinmodena.fr:2999/users/add`
+      axios.post(url, jsonCreate).then(function(response) {
+        return location.reload()
+      }).catch(function(response) {
+        alert('An error occured. Please try again or contact administrator.')
+      })
     },
     updateUser: function() {
       var idUser = $('#idUser')[0].value
@@ -185,6 +190,7 @@ export default {
 }
 </script>
 <style scoped lang="scss">
+#modalCreate,
 #modalUpdate {
     position: absolute;
     width: 50vw;
