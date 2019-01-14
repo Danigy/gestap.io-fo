@@ -17,7 +17,7 @@ $(document).ready(function() {
     json['email'] = $('#login_email')[0].value
     json['password'] = $('#login_password')[0].value
     $.ajax({
-      url: 'http://ebcitakademy.alwaysdata.net/users/login',
+      url: 'http://vps.quentinmodena.fr:2999/users/login',
       type: 'POST',
       data: json,
     }).done(function(result) {
@@ -42,7 +42,7 @@ $(document).ready(function() {
     json['rfid'] = null
     json['admin'] = 1
     $.ajax({
-      url: 'http://ebcitakademy.alwaysdata.net/users/add',
+      url: 'http://vps.quentinmodena.fr:2999/users/add',
       type: 'POST',
       data: json,
     }).done(function(result) {
