@@ -2,19 +2,19 @@
 <div class="Groups">
   <!-- Sidebar -->
   <ul class="sidebar navbar-nav" style="position:fixed;">
-    <router-link to="Dashboard" ><img style="height:150px; width:150px; margin-left:25px;" src="css/logo.jpg"/></router-link>
+    <router-link to="Dashboard" ><img style="height:150px; width:150px;" src="css/logo.jpg"/></router-link>
     <li class="nav-item">
-      <router-link to="{path : Users}" class="nav-link">
+      <router-link to="Users" class="nav-link">
         <i class="fa fa-user"></i>
         <span>Users</span></router-link>
     </li>
     <li class="nav-item">
-      <router-link to="{path :Groups}" class="nav-link">
+      <router-link to="Groups" class="nav-link">
         <i class="fa fa-users"></i>
         <span>Groups</span></router-link>
     </li>
     <li class="nav-item">
-      <router-link to="{path :Rooms}" class="nav-link">
+      <router-link to="Rooms" class="nav-link">
         <i class="fa fa-bars"></i>
         <span>Rooms</span></router-link>
     </li>
@@ -37,9 +37,6 @@
         </table>
       </div>
 
-
-
-
       <div class="col-lg-4" v-show="click">
         <table class="table table-bordered table-hover">
           <thead>
@@ -56,11 +53,7 @@
         <b-button v-b-modal.addUser variant="success">add Users</b-button>
 
         <b-modal id="addUser" title="Bootstrap-Vue">
-          <select v-model="groups">
-            <option>Please one user</option>
-            <option v-for="group in groups">{{ group.name}}</option>
-          </select>
-          <span>Selected: {{ groups.name }}</span>
+
         </b-modal>
       </div>
 
@@ -74,7 +67,7 @@
           </thead>
           <tbody>
             <tr v-for="course in courses">
-                <th @click="getCourses">{{ course.name}}</th>
+                <th @click="getCourses">{{ course.label }}</th>
             </tr>
           </tbody>
         </table>
@@ -121,9 +114,9 @@ methods: {
   getCourses: function() {
     axios.get('http://vps.quentinmodena.fr:2999/courses/all')
       .then((response) => {
-       this.courses = response
+       this.courses = response.data.data
+       console.log(this.courses);
          this.clickCourses = !this.clickCourses
-         console.log(this.courses)
       })
       .catch((response) => {
         alert('Erreur de récupération des Cours.')
