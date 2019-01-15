@@ -24,6 +24,11 @@ export default new Router({
       component: () => import(/* webpackChunkName: "about" */ './views/Dashboard.vue')
     },
     {
+      path: '/Users',
+      name: 'Users',
+      component: () => import('./views/Users.vue')
+    },
+    {
       path: '/Groups',
       name: 'Groups',
       // route level code-splitting
@@ -32,9 +37,9 @@ export default new Router({
       component: () => import(/* webpackChunkName: "about" */ './views/Groups.vue')
     },
     {
-      path: '/Users',
-      name: 'Users',
-      component: () => import('./views/UsersTable.vue')
+      path: '/Lessons',
+      name: 'Lessons',
+      component: () => import('./views/Lessons.vue')
     }
   ]
 })
