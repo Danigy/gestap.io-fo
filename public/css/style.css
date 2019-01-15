@@ -194,3 +194,11 @@ font-weight: bold;
   padding: 1.2rem !important;
   cursor: pointer !important;
 }
+
+.btn-secondary{
+  margin-top:10px;
+  background: orange;
+}
+.btn-secondary:hover{
+  background: red;
+}
