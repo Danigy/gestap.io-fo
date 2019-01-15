@@ -31,15 +31,22 @@ export default new Router({
     {
       path: '/Groups',
       name: 'Groups',
-      // route level code-splitting
-      // this generates a separate chunk (about.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import(/* webpackChunkName: "about" */ './views/Groups.vue')
+      component: () => import('./views/Groups.vue')
     },
     {
       path: '/Lessons',
       name: 'Lessons',
       component: () => import('./views/Lessons.vue')
+    },
+    {
+      path: '/rooms',
+      name: 'ListRooms',
+      component: () => import('./views/RoomsList.vue')
+    },
+    {
+      path: '/rooms/:id',
+      name: 'FicheRooms',
+      component: () => import('./views/RoomsFiche.vue')
     }
   ]
 })
