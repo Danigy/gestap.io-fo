@@ -12,7 +12,7 @@
       </ul>
       <div class="tab-content">
         <div class="tab-pane active" id="login">
-          <form id="loginForm" class="form-horizontal login-form" method="post" action="">
+          <div id="loginForm" class="form-horizontal login-form">
             <div class="form-group relative">
               <input class="form-control input-lg" id="login_email" placeholder="Email" required type="email"> <i class="fa fa-user"></i>
             </div>
@@ -22,10 +22,10 @@
             <div class="form-group">
               <button class="btn btn-success btn-lg btn-block" @click='login()'>Login</button>
             </div>
-          </form>
+          </div>
         </div>
         <div class="tab-pane" id="sign_up">
-          <form id="signupForm" class="form-horizontal login-form" method="post" action="">
+          <div id="signupForm" class="form-horizontal login-form">
             <div class="form-group relative">
               <input class="form-control input-lg" id="signup_firstname" placeholder="First Name" required type="text"> <i class="fa fa-user"></i>
             </div>
@@ -41,7 +41,7 @@
             <div class="form-group">
               <button class="btn btn-success btn-lg btn-block" @click='signup()'>Sign Up</button>
             </div>
-          </form>
+          </div>
         </div>
       </div>
     </div>
@@ -62,11 +62,10 @@ export default {
         'password': $('#login_password')[0].value
       }
       const url = `http://vps.quentinmodena.fr:2999/users/login`
-      axios.put(url, jsonLogin).then(function(response) {
-        console.log(response)
-        if (response.code == 200) {
+      axios.post(url, jsonLogin).then(function(response) {
+        if (response.data.code == 200) {
           sessionStorage.setItem('email', jsonLogin['email'])
-          //window.location.href = 'dashboard'
+          window.location.href = 'dashboard'
         } else {
           alert('Wrong username or password')
         }
@@ -86,7 +85,7 @@ export default {
       }
       const url = `http://vps.quentinmodena.fr:2999/users/add`
       axios.post(url, jsonLogin).then(function(response) {
-        if (response.code == 200) {
+        if (response.data.code == 200) {
           sessionStorage.setItem('email', jsonSignup['email'])
           window.location.href = 'dashboard'
         } else {
