@@ -34,19 +34,14 @@ export default new Router({
       component: () => import('./views/Groups.vue')
     },
     {
+      path: '/Rooms',
+      name: 'Rooms',
+      component: () => import('./views/Rooms.vue')
+    },
+    {
       path: '/Lessons',
       name: 'Lessons',
       component: () => import('./views/Lessons.vue')
-    },
-    {
-      path: '/rooms',
-      name: 'ListRooms',
-      component: () => import('./views/RoomsList.vue')
-    },
-    {
-      path: '/rooms/:id',
-      name: 'FicheRooms',
-      component: () => import('./views/RoomsFiche.vue')
     }
   ]
 })
