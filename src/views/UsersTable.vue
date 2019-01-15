@@ -1,26 +1,11 @@
 <template>
 <div>
   <!-- Sidebar -->
-  <ul class="sidebar navbar-nav" style="position:fixed;">
-    <router-link to="Dashboard" ><img style="height:150px; width:150px;" src="css/logo.jpg"/></router-link>
-    <li class="nav-item">
-      <router-link to="Users" class="nav-link">
-        <i class="fa fa-user"></i>
-        <span>Users</span></router-link>
-    </li>
-    <li class="nav-item">
-      <router-link to="Groups" class="nav-link">
-        <i class="fa fa-users"></i>
-        <span>Groups</span></router-link>
-    </li>
-    <li class="nav-item">
-      <router-link to="Rooms" class="nav-link">
-        <i class="fa fa-bars"></i>
-        <span>Rooms</span></router-link>
-    </li>
-  </ul>
+  <Navigation></Navigation>
+  <!-- Users -->
   <h1>Users</h1>
-  <button class="addButton" @click="showModalCreate()"><img src="../assets/open-iconic/svg/plus.svg"></button>
+  <!-- Button Add User -->
+  <button class="addButton bg-blue" @click="showModalCreate()">Add User</button>
   <!-- Modal Create -->
   <div id="modalCreate" hidden="true" class="modal-dialog" role="document">
     <div class="modal-content">
@@ -93,7 +78,7 @@
       </div>
     </div>
   </div>
-
+  <!-- Users Table -->
   <table class="table table-bordered table-hover">
     <thead>
       <tr>
@@ -113,8 +98,8 @@
         <td>{{ user.email }}</td>
         <td>{{ user.birthday }}</td>
         <td>
-          <button class="btn btn-primary" @click="showModalUpdate(user)">Modify</button>
-          <button class="btn btn-danger" @click="deleteUser(user)"> X</button>
+          <button class="userButton bg-blue" @click="showModalUpdate(user)"><i class="fas fa-pen"></i></button>
+          <button class="userButton bg-red" @click="deleteUser(user)"><i class="far fa-trash-alt"></i></button>
         </td>
       </tr>
     </tbody>
@@ -123,11 +108,14 @@
 </template>
 
 <script>
+import Navigation from '@/components/Navigation'
 import axios from 'axios'
 
 export default {
   name: 'ListUsers',
-  components: {},
+  components: {
+    'Navigation': Navigation
+  },
   data() {
     return {
       users: [],
@@ -212,14 +200,46 @@ export default {
 #modalCreate,
 #modalUpdate {
     position: absolute;
-    width: 50vw;
-    margin: 15vh auto auto 33vw;
+    width: 100%;
+    height: 100%;
+    margin-left: 35%;
+    margin-top: -10vh;
+}
+
+td {
+    vertical-align: middle;
 }
 
 .addButton {
-    width: 50px;
-    height: 50px;
-    background-color: royalblue;
-    border-radius: 50%;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 20px;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+    cursor: pointer;
+}
+
+.userButton {
+    border: none;
+    color: white;
+    padding: 12px 14px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 5px;
+    cursor: pointer;
+}
+
+.bg-blue {
+    background-color: #008CBA;
+}
+
+.bg-red {
+    background-color: #f44336;
 }
 </style>
