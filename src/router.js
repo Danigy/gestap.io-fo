@@ -35,6 +35,16 @@ export default new Router({
       path: '/Users',
       name: 'Users',
       component: () => import('./views/UsersTable.vue')
+    },
+    {
+      path: '/rooms',
+      name: 'ListRooms',
+      component: () => import('./views/RoomsList.vue')
+    },
+    {
+      path: '/rooms/:id',
+      name: 'FicheRooms',
+      component: () => import('./views/RoomsFiche.vue')
     }
   ]
 })
