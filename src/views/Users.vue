@@ -112,7 +112,7 @@ import Navigation from '@/components/Navigation'
 import axios from 'axios'
 
 export default {
-  name: 'ListUsers',
+  name: 'Users',
   components: {
     'Navigation': Navigation
   },

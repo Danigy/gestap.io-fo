@@ -12,7 +12,7 @@
       </ul>
       <div class="tab-content">
         <div class="tab-pane active" id="login">
-          <form id="loginForm" class="form-horizontal login-form" method="post" action="">
+          <div id="loginForm" class="form-horizontal login-form">
             <div class="form-group relative">
               <input class="form-control input-lg" id="login_email" placeholder="Email" required type="email"> <i class="fa fa-user"></i>
             </div>
@@ -20,12 +20,12 @@
               <input class="form-control input-lg" id="login_password" placeholder="Password" required type="password"> <i class="fa fa-lock"></i>
             </div>
             <div class="form-group">
-              <button class="btn btn-success btn-lg btn-block" type="submit">Login</button>
+              <button class="btn btn-success btn-lg btn-block" @click='login()'>Login</button>
             </div>
-          </form>
+          </div>
         </div>
         <div class="tab-pane" id="sign_up">
-          <form id="signupForm" class="form-horizontal login-form" method="post" action="">
+          <div id="signupForm" class="form-horizontal login-form">
             <div class="form-group relative">
               <input class="form-control input-lg" id="signup_firstname" placeholder="First Name" required type="text"> <i class="fa fa-user"></i>
             </div>
@@ -39,9 +39,9 @@
               <input class="form-control input-lg" id="signup_password" placeholder="Password" required type="password"> <i class="fa fa-lock"></i>
             </div>
             <div class="form-group">
-              <button class="btn btn-success btn-lg btn-block" type="submit">Sign Up</button>
+              <button class="btn btn-success btn-lg btn-block" @click='signup()'>Sign Up</button>
             </div>
-          </form>
+          </div>
         </div>
       </div>
     </div>
@@ -50,17 +50,65 @@
 </template>
 
 <script>
-
-import Loginjs from '@/components/Loginjs.vue'
-
 const axios = require('axios')
 
 export default {
   name: 'Login',
-  components: {
-    Loginjs
+  components: {},
+  methods: {
+    login: function() {
+      var jsonLogin = {
+        'email': $('#login_email')[0].value,
+        'password': $('#login_password')[0].value
+      }
+      const url = `http://vps.quentinmodena.fr:2999/users/login`
+      axios.post(url, jsonLogin).then(function(response) {
+        if (response.data.code == 200) {
+          sessionStorage.setItem('email', jsonLogin['email'])
+          window.location.href = 'dashboard'
+        } else {
+          alert('Wrong username or password')
+        }
+      }).catch(function(response) {
+        alert('An error occured. Please try again or contact administrator.')
+      })
+    },
+    signup: function() {
+      var jsonSignup = {
+        'firstname': $('#signup_firstname')[0].value,
+        'lastname': $('#signup_lastname')[0].value,
+        'email': $('#signup_email')[0].value,
+        'password': $('#signup_password')[0].value,
+        'birthday': null,
+        'rfid': null,
+        'admin': 1
+      }
+      const url = `http://vps.quentinmodena.fr:2999/users/add`
+      axios.post(url, jsonLogin).then(function(response) {
+        if (response.data.code == 200) {
+          sessionStorage.setItem('email', jsonSignup['email'])
+          window.location.href = 'dashboard'
+        } else {
+          alert('An error occured. Please try again or contact administrator.')
+        }
+      }).catch(function(response) {
+        alert('An error occured. Please try again or contact administrator.')
+      })
+    }
   }
 }
+
+$(document).ready(function() {
+  // Switch between login and signup
+  $('ul.switcher li').on("click", function() {
+    var tab_id = $(this).attr('data-tab')
+    $('li').removeClass('active')
+    $('div.tab-pane').removeClass('active')
+
+    $(this).addClass('active')
+    $("#" + tab_id).addClass('active')
+  })
+})
 </script>
 
 <style scoped lang="scss">

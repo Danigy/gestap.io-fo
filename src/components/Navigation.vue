@@ -46,6 +46,12 @@ export default {
           text: 'Rooms',
           page: '/Rooms',
           myClass: 'fas fa-bars'
+        },
+        {
+          id: 4,
+          text: 'Lessons',
+          page: '/Lessons',
+          myClass: 'fas fa-book-open'
         }
       ]
     }
