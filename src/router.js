@@ -24,17 +24,24 @@ export default new Router({
       component: () => import(/* webpackChunkName: "about" */ './views/Dashboard.vue')
     },
     {
-      path: '/Groups',
-      name: 'Groups',
-      // route level code-splitting
-      // this generates a separate chunk (about.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import(/* webpackChunkName: "about" */ './views/Groups.vue')
-    },
-    {
       path: '/Users',
       name: 'Users',
-      component: () => import('./views/UsersTable.vue')
+      component: () => import('./views/Users.vue')
+    },
+    {
+      path: '/Groups',
+      name: 'Groups',
+      component: () => import('./views/Groups.vue')
+    },
+    {
+      path: '/Rooms',
+      name: 'Rooms',
+      component: () => import('./views/Rooms.vue')
+    },
+    {
+      path: '/Lessons',
+      name: 'Lessons',
+      component: () => import('./views/Lessons.vue')
     }
   ]
 })

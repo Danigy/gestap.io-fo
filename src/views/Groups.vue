@@ -1,24 +1,7 @@
 <template>
 <div class="Groups">
   <!-- Sidebar -->
-  <ul class="sidebar navbar-nav" style="position:fixed;">
-    <router-link to="Dashboard" ><img style="height:150px; width:150px;" src="css/logo.jpg"/></router-link>
-    <li class="nav-item">
-      <router-link to="Users" class="nav-link">
-        <i class="fa fa-user"></i>
-        <span>Users</span></router-link>
-    </li>
-    <li class="nav-item">
-      <router-link to="Groups" class="nav-link">
-        <i class="fa fa-users"></i>
-        <span>Groups</span></router-link>
-    </li>
-    <li class="nav-item">
-      <router-link to="Rooms" class="nav-link">
-        <i class="fa fa-bars"></i>
-        <span>Rooms</span></router-link>
-    </li>
-  </ul>
+  <Navigation></Navigation>
 
     <h1>Groups</h1>
     <div class="row marginleft">
@@ -63,30 +46,35 @@
       </div>
 
 
-      <div class="col-lg-4" v-show="clickCourses">
-        <table class="table table-bordered table-hover">
-          <thead>
-            <tr>
-              <th>List Courses</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="course in courses">
-                <th @click="getCourses">{{ course.label }}</th>
-            </tr>
-          </tbody>
-        </table>
-        <b-button variant="success">add Lessons</b-button>
-      </div>
+    <div class="col-lg-4" v-show="clickCourses">
+      <table class="table table-bordered table-hover">
+        <thead>
+          <tr>
+            <th>List Courses</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="course in courses">
+            <th @click="getCourses">{{ course.label }}</th>
+          </tr>
+        </tbody>
+      </table>
+      <b-button variant="success">add Lessons</b-button>
     </div>
+  </div>
 </div>
 </template>
 
 <script>
+import Navigation from '@/components/Navigation'
 import axios from 'axios'
 
 export default {
-data () {
+  name: 'Groups',
+  components: {
+    'Navigation': Navigation
+  },
+  data () {
   return {
     groups:[],
     users:[],
@@ -174,7 +162,6 @@ methods: {
     this.getallUsers()
   }
 }
-
 </script>
 
 <style scoped>
