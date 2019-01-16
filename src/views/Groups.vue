@@ -44,7 +44,7 @@
 
       </div>
 
-      <div class="col-lg-4" v-show="click">
+      <div class="col-lg-4 displayNone">
         <table class="table table-bordered table-hover">
           <thead>
             <tr>
@@ -63,7 +63,7 @@
       </div>
 
 
-      <div class="col-lg-4" v-show="clickCourses">
+      <div class="col-lg-4 displayNone">
         <table class="table table-bordered table-hover">
           <thead>
             <tr>
@@ -73,7 +73,14 @@
           <tbody>
             <tr v-for="course in courses">
                 <th @click="getCourses">{{ course.label }}</th>
+                <th><b-button @click=""><img src="../assets/open-iconic/svg/trash.svg"></b-button></th>
             </tr>
+            <b-modal @ok="addUserGroup()" id="addUser" title="Add User">
+              <select v-model="selected" @change="Change">
+                  <option v-for="alluser in allusers" v-bind:id="alluser._id" @click="retrieveIdUserOfSelect(alluser._id)">{{ alluser.firstname }} {{ alluser.lastname }}</option>
+              </select>
+              <span>{{ selected }}</span>
+            </b-modal>
           </tbody>
         </table>
         <b-button variant="success">add Lessons</b-button>
@@ -92,7 +99,6 @@ data () {
     users:[],
     allusers:[],
     courses:[],
-    click:false,
     clickCourses:false,
     groupId: null,
     userId: null,
@@ -151,7 +157,8 @@ methods: {
     axios.get(`http://vps.quentinmodena.fr:2999/groups/users-of/${groupId}`)
       .then((response) => {
         this.users = response.data.data
-         this.click = !this.click
+        $(".displayNone").css("display","block")
+        console.log(this)
       })
       .catch((response) => {
         alert('Erreur de récupération des Users.')
@@ -162,7 +169,6 @@ methods: {
       .then((response) => {
        this.courses = response.data.data
        //console.log(this.courses);
-         this.clickCourses = !this.clickCourses
       })
       .catch((response) => {
         alert('Erreur de récupération des Cours.')

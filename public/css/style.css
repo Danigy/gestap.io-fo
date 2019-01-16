@@ -202,3 +202,11 @@ font-weight: bold;
 .btn-secondary:hover{
   background: red;
 }
+
+.displayNone{
+  display:none;
+}
+
+.displayShow{
+  display:block;
+}
