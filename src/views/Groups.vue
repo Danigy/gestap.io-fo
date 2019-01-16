@@ -263,7 +263,7 @@ methods: {
   addCourses: function(groupId){
     this.groupId = groupId
     console.log(groupId);
-    axios.put(`http://vps.quentinmodena.fr:2999/add-course-to/${this.groupId}`)
+    axios.put(`http://vps.quentinmodena.fr:2999/groups/add-course-to/${this.groupId}`)
       .then((response) => {
         console.log(response);
         this.getCourses()
