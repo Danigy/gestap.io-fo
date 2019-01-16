@@ -257,10 +257,8 @@ methods: {
       'hour_start': $('#hourStart').val(),
       'hour_end': $('#hourEnd').val(),
       'room': roomId
-
     }
     console.log(jsonCreate);
-
   },
   addCourses: function(groupId){
     this.groupId = groupId
