@@ -25,7 +25,7 @@
           </tbody>
         </table>
 
-      </div>
+    </div>
 
       <div class="col-lg-4 displayNone">
         <table class="table table-bordered table-hover">
@@ -94,6 +94,7 @@
       <b-button v-b-modal.addLesson variant="success">add Lessons</b-button>
     </div>
   </div>
+</div>
 </div>
 </template>
 
@@ -306,8 +307,7 @@ methods: {
         alert('Erreur de récupération des Rooms.')
       })
   }
-}
-,
+},
   mounted() {
     this.getAllGroups()
     this.getallUsers()
