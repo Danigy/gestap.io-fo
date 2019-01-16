@@ -50,7 +50,7 @@ export default {
   },
   methods: {
     getInfos: function() {
-      axios.get('http://localhost:2999/records/infos')
+      axios.get('http://vps.quentinmodena.fr:2999/records/infos')
         .then((response) => {
           this.groups = response.data
         })
