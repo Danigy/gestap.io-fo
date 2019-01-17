@@ -16,14 +16,19 @@
           <tr v-for="group in groups">
             <th @click="getUsersByGroup(group._id), getLessonsByGroup(group._id)" v-bind:id="group._id" class="title">{{ group.name }}</th>
           </tr>
-          <b-modal @ok="addUserGroup(groupId)" id="addUser" title="Add User">
-            <select v-model="selected" @change="Change">
-              <option v-for="alluser in allusers" v-bind:id="alluser._id" @click="retrieveIdUserOfSelect(alluser._id)">{{ alluser.firstname }} {{ alluser.lastname }}</option>
-            </select>
-            <span>{{ selected }}</span>
-          </b-modal>
         </tbody>
       </table>
+
+      <b-modal @ok="addUserGroup(groupId)" id="addUser" title="Add user">
+        <!--<select v-model="selected" @change="Change">-->
+          <!--<option v-for="alluser in allusers" v-bind:id="alluser._id" @click="retrieveIdUserOfSelect(alluser._id)">{{ alluser.firstname }} {{ alluser.lastname }}</option>-->
+        <!--</select>-->
+        <select v-model="selectUser">
+          <option v-for="alluser in allusers" v-bind:id="alluser._id" v-bind:value="alluser._id">{{ alluser.firstname }} {{ alluser.lastname }}</option>
+        </select>
+        <!--<span>{{ selected }}</span>-->
+        <!--<span>{{ selectUser }}</span>-->
+      </b-modal>
     </div>
 
     <div class="col-lg-4 displayNone">
@@ -133,7 +138,8 @@ export default {
       selected: '',
       eventSelect: '',
       selectRoom: '',
-      selectLesson: ''
+      selectLesson: '',
+      selectUser: ''
     }
   },
   methods: {
@@ -251,7 +257,7 @@ export default {
      */
     addUserGroup: function (groupId) {
       let ArrayUsersId = []
-      ArrayUsersId.push(this.userId)
+      ArrayUsersId.push(this.selectUser)
       axios.put(`http://vps.quentinmodena.fr:2999/groups/add-user-to/${this.groupId}`, ArrayUsersId)
         .then((response) => {
           this.userId = null
