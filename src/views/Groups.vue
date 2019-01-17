@@ -20,14 +20,9 @@
       </table>
 
       <b-modal @ok="addUserGroup(groupId)" id="addUser" title="Add user">
-        <!--<select v-model="selected" @change="Change">-->
-          <!--<option v-for="alluser in allusers" v-bind:id="alluser._id" @click="retrieveIdUserOfSelect(alluser._id)">{{ alluser.firstname }} {{ alluser.lastname }}</option>-->
-        <!--</select>-->
         <select v-model="selectUser">
           <option v-for="alluser in allusers" v-bind:id="alluser._id" v-bind:value="alluser._id">{{ alluser.firstname }} {{ alluser.lastname }}</option>
         </select>
-        <!--<span>{{ selected }}</span>-->
-        <!--<span>{{ selectUser }}</span>-->
       </b-modal>
     </div>
 
@@ -73,7 +68,6 @@
               <b-button @click="deleteCoursesGroup(course._id)"><i class="far fa-trash-alt"></i></b-button>
             </th>
           </tr>
-          <!--<b-modal @ok="retrieveCoursesIdOfSelect(coursesId),retrieveLabelRoomNameOfSelect(roomId), getDatestart(), addLesson(coursesId, roomId, groupId)" id="addLesson" title="Add lesson">-->
           <b-modal @ok="getDatestart(), addLesson(groupId)" id="addLesson" title="Add lesson">
             <div class="row">
               <div class="col-lg-6">
@@ -83,11 +77,9 @@
                 <input type="number" id="hourStart" />
                 <p>Select a lesson</p>
                 <select v-model="selectLesson">
-                  <!--<option v-for="lesson in allcourses" v-bind:id="lesson._id" @click="retrieveCoursesIdOfSelect(lesson._id)">{{ lesson.label }}</option>-->
                   <option v-for="lesson in allcourses" v-bind:id="lesson._id" v-bind:value="lesson._id">{{ lesson.label }}</option>
                   {{ selectLesson }}
                 </select>
-                <!--<span>Ce qui a été choisi : {{ selectLesson }}</span>-->
               </div>
               <div class="col-lg-6">
                 <p>Date end</p>
@@ -96,11 +88,9 @@
                 <input type="number" id="hourEnd" />
                 <p>Select a room</p>
                 <select v-model="selectRoom">
-                  <!--<option v-for="room in rooms" v-bind:id="room._id" @click="retrieveLabelRoomNameOfSelect(room._id)">{{ room.name }}</option>-->
                   <option v-for="room in rooms" v-bind:id="room._id" v-bind:value="room._id">{{ room.name }}</option>
                   {{ selectRoom }}
                 </select>
-                <!--<span>Ce qui a été choisi : {{ selectRoom }}</span>-->
               </div>
             </div>
           </b-modal>
@@ -109,8 +99,6 @@
     </div>
   </div>
 </div>
-<!--TODO: If works fine, remove this end tag matching nothing-->
-<!--</div>-->
 </template>
 
 <script>
@@ -166,6 +154,8 @@ export default {
         })
     },
     deleteGroupUser: function (userId) {
+      // TODO: Old code to review
+      /*
       let usersInGroupObject = this.users // génère une chaîne des users
       // All users before delete
       let tempUsersId = []
@@ -187,10 +177,13 @@ export default {
       this.userId = userId
       let ArrayUsersId = []
       ArrayUsersId.push(this.userId)
+      */
+      let ArrayUsersId = [userId]
 
-      axios.put(`http://vps.quentinmodena.fr:2999/groups/remove-courses-to/${this.groupId}`, ArrayUsersId)
+      axios.put(`http://vps.quentinmodena.fr:2999/groups/remove-user-to/${this.groupId}`, ArrayUsersId)
         .then((response) => {
           this.userId = null
+          location.reload()
         })
         .catch((response) => {
           console.log('err', response)
@@ -334,16 +327,6 @@ export default {
           console.log('Error when getting lessons by group', response)
         })
     },
-    // TODO : Not used at all, if it works fine, remove it
-    // getCourses: function () {
-    //   axios.get('http://vps.quentinmodena.fr:2999/courses/all')
-    //     .then((response) => {
-    //       this.courses = response.data.data
-    //     })
-    //     .catch((response) => {
-    //       alert('Error while retrieving lessons.')
-    //     })
-    // },
     getallRooms: function () {
       axios.get('http://vps.quentinmodena.fr:2999/rooms/all')
         .then((response) => {
