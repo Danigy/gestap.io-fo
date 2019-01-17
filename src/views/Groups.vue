@@ -14,7 +14,7 @@
         </thead>
         <tbody>
           <tr v-for="group in groups">
-            <th @click="getGroupId(group._id)" v-bind:id="group._id" class="title">{{ group.name }}</th>
+            <th @click="getUsersByGroup(group._id), getLessonsByGroup(group._id)" v-bind:id="group._id" class="title">{{ group.name }}</th>
           </tr>
           <b-modal @ok="addUserGroup(groupId)" id="addUser" title="Add User">
             <select v-model="selected" @change="Change">
@@ -24,10 +24,10 @@
           </b-modal>
         </tbody>
       </table>
-
     </div>
 
     <div class="col-lg-4 displayNone">
+      <b-button v-b-modal.addUser variant="success">add Users</b-button>
       <table class="table table-bordered table-hover">
         <thead>
           <tr>
@@ -44,16 +44,16 @@
           </tr>
         </tbody>
       </table>
-      <b-button v-b-modal.addUser variant="success">add Users</b-button>
     </div>
 
 
     <div class="col-lg-6 displayNone">
+      <b-button v-b-modal.addLesson variant="success" @click="getAllCourses()">add Lessons</b-button>
       <table class="table table-bordered table-hover">
         <thead>
           <tr>
-            <th>Lessons</th>
-            <th>Rooms</th>
+            <th>Lesson</th>
+            <th>Room</th>
             <th>Date of start</th>
             <th>Date of end</th>
             <th>Actions</th>
@@ -61,15 +61,15 @@
         </thead>
         <tbody>
           <tr v-for="course in courses">
-            <th @click="getCourses">{{ course.label }}</th>
-            <th>sonic </th>
-            <th>date start</th>
-            <th>date end</th>
+            <th>{{ course.label }}</th>
+            <th>{{ course.room_name }}</th>
+            <th>{{ course.date_start }}</th>
+            <th>{{ course.date_end }}</th>
             <th>
               <b-button @click="deleteCoursesGroup(course._id)"><i class="far fa-trash-alt"></i></b-button>
             </th>
           </tr>
-          <b-modal @ok="addCourses(groupId),retrieveCoursesIdOfSelect(coursesId),retrieveLabelRoomNameOfSelect(roomId), getDatestart(), addLesson(coursesId, roomId, groupId)" id="addLesson" title="Add Lessons">
+          <b-modal @ok="retrieveCoursesIdOfSelect(coursesId),retrieveLabelRoomNameOfSelect(roomId), getDatestart(), addLesson(coursesId, roomId, groupId)" id="addLesson" title="Add Lessons">
             <div class="row">
               <div class="col-lg-6">
                 <p>Date start</p>
@@ -78,7 +78,7 @@
                 <input type="number" id="hourStart" />
                 <p>select to lesson</p>
                 <select>
-                  <option v-for="course in courses" @click="retrieveCoursesIdOfSelect(course._id)">{{ course.label }}</option>
+                  <option v-for="lesson in allcourses" @click="retrieveCoursesIdOfSelect(lesson._id)">{{ lesson.label }}</option>
                 </select>
               </div>
               <div class="col-lg-6">
@@ -95,7 +95,6 @@
           </b-modal>
         </tbody>
       </table>
-      <b-button v-b-modal.addLesson @click="getCourses()" variant="success">add Lessons</b-button>
     </div>
   </div>
 </div>
@@ -117,6 +116,7 @@ export default {
       users: [],
       allusers: [],
       courses: [],
+      allcourses: [],
       rooms: [],
       roomId: null,
       coursesLabel: [],
@@ -138,7 +138,7 @@ export default {
           this.groups = response.data.data
         })
         .catch((response) => {
-          alert('Erreur de récupération des groupes.')
+          alert('An error occured. Please try again or contact administrator.')
         })
     },
     getallUsers: function() {
@@ -189,7 +189,7 @@ export default {
       coursesInGroupObject.forEach(function(element) { //pour chaque utilisateur
         tempCoursesId.push(element) //passe l'utilisateur dans la chaîne temporaire
       }) //ce qui clone la chaîne des users
-      console.log('Tableau de départ ', tempCoursesId);
+      //console.log('Tableau de départ ', tempCoursesId);
       coursesToDelete = coursesId //on passe l'argument comme user à supprimer
 
       // Trouver index de l'utilisateur
@@ -197,7 +197,7 @@ export default {
 
       // Supprimer à l'index
       let finalArray = tempCoursesId.splice(whereIsIt, 1) //on crée la chaîne sans l'user ciblé
-      console.log('Tableau final ', tempCoursesId)
+      //console.log('Tableau final ', tempCoursesId)
       this.courses = tempCoursesId //on remplace la chaîne par la nouvelle chaîne
 
       this.coursesId = coursesId
@@ -218,16 +218,17 @@ export default {
     retrieveIdUserOfSelect: function(userId) {
       this.userId = userId
     },
-    retrieveCoursesIdOfSelect: function(coursesId) {
-      if (coursesId == null) {
+    retrieveCoursesIdOfSelect: function(lessonId) {
+      console.log('retrieveCoursesIdOfSelect', lessonId)
+      if (lessonId == null) {
         this.coursesId = this.courses[0]._id
       } else {
-        this.coursesId = coursesId
+        this.coursesId = lessonId
       }
     },
     retrieveLabelRoomNameOfSelect: function(roomId) {
+      console.log('retrieveLabelRoomNameOfSelect', roomId);
       this.roomId = roomId
-      console.log('retrieveLabelRoomNameOfSelect', this.roomId);
       if (roomId == null) {
         this.roomId = this.rooms[0]._id
       } else {
@@ -237,23 +238,21 @@ export default {
     addUserGroup: function(groupId) {
       let ArrayUsersId = []
       ArrayUsersId.push(this.userId)
-      //var AddUserInArray = $("#AddUserInArray").val()
       axios.put(`http://vps.quentinmodena.fr:2999/groups/add-user-to/${this.groupId}`, ArrayUsersId)
         .then((response) => {
           this.userId = null
-          this.getGroupId(groupId)
+          this.getUsersByGroup(groupId)
         })
         .catch((response) => {
-          console.log(response);
-          //alert('Erreur ajout User')
+          console.log('Error addUserGroup', response);
         })
     },
     addLesson: function(coursesId, roomId, groupId) {
-      console.log('one')
+      let self = this
       this.coursesId = coursesId
       this.roomId = roomId
       //console.log('addLesson', this.coursesId)
-      var jsonCreate = {
+      var jsonCreateLesson = {
         'course_id': coursesId,
         'room_id': roomId,
         'date_start': $('#datestart').val(),
@@ -262,71 +261,55 @@ export default {
         'hour_end': $('#hourEnd').val()
       }
       const url = `http://vps.quentinmodena.fr:2999/groups/add-course-to/${this.groupId}`
-      axios.put(url, jsonCreate).then(function(response) {
+      axios.put(url, jsonCreateLesson).then(function(response) {
         console.log('Addlesson put', response);
-        //this.getCourses();
+        //self.getLessonsByGroup(groupId)
       }).catch(function(response) {
         console.log('Error add lesson.', response)
       })
-      console.log(jsonCreate);
     },
-    addCourses: function(groupId) {
-      this.groupId = groupId
-      console.log(groupId);
-      axios.put(`http://vps.quentinmodena.fr:2999/groups/add-course-to/${this.groupId}`)
-        .then((response) => {
-          console.log(response);
-          this.getCourses()
-        })
-        .catch((response) => {
-          console.log('err', response);
-          //alert('Erreur ajout User')
-        })
-    },
-    getGroupId: function(groupId) {
-      console.log('getGroupId', groupId)
+    getUsersByGroup: function(groupId) {
       this.groupId = groupId
       axios.get(`http://vps.quentinmodena.fr:2999/groups/users-of/${groupId}`)
         .then((response) => {
           this.users = response.data.data
           $(".displayNone").css("display", "block")
-          // let titleGroup = $(".title")[0].innerHTML
-          // $("#titleGroup")[0].innerHTML = titleGroup
-          // $("#titleCourses")[0].innerHTML = titleGroup
         })
         .catch((response) => {
           alert('Erreur de récupération des Users.')
         })
+    },
+    getLessonsByGroup: function(groupId) {
+      let self = this
+      let tabFinalLessons = []
       axios.get(`http://vps.quentinmodena.fr:2999/groups/one/${groupId}`)
         .then((response) => {
-          var jsonCourses = {}
-          var tabCoursesId = []
-          //console.log('etienne', response.data.data[0])
-          $.each(response.data.data[0].courses, function(key, value) {
-            tabCoursesId.push(response.data.data[0].courses[key])
-            $.each(tabCoursesId, function(k, v) {
-              //console.log('k', k, 'v', v)
-              axios.get(`http://vps.quentinmodena.fr:2999/courses/one/` + v.course_id)
-                .then((response) => {
-                  //console.log('response lesson name', response)
-                  jsonCourses[v] = response.data.data[0].label
-                })
-                .catch((respone) => {
-                  //console.log('error when getting lesson name with lesson id', response)
-                })
-            })
+          var tabLessons = response.data.data[0].courses
+          $.each(tabLessons, function(key, value) {
+            var date_start = ""
+            var date_end = ""
+            if (value.date_start != undefined)
+              date_start = value.date_start.slice(0, 10)
+            if (value.date_end != undefined)
+              date_end = value.date_end.slice(0, 10)
+            var tmpLesson = {
+              '_id': value.course_id,
+              'label': value.course_name,
+              'room_name': value.room_name,
+              'date_start': date_start,
+              'date_end': date_end
+            }
+            tabFinalLessons.push(tmpLesson)
           })
-          //console.log('jsonCourses', jsonCourses)
-          this.courses = jsonCourses
+          self.courses = tabFinalLessons
         })
         .catch((response) => {
-          console.log('error get courses by group id', response)
+          console.log('Error when getting lessons by group', response)
         })
     },
     getCourses: function() {
       axios.get('http://vps.quentinmodena.fr:2999/courses/all')
         .then((response) => {
-          console.log(response)
           this.courses = response.data.data
         })
         .catch((response) => {
@@ -337,10 +320,18 @@ export default {
       axios.get('http://vps.quentinmodena.fr:2999/rooms/all')
         .then((response) => {
           this.rooms = response.data
-          console.log(this.rooms)
         })
         .catch((response) => {
           alert('Erreur de récupération des Rooms.')
+        })
+    },
+    getAllCourses: function() {
+      axios.get('http://vps.quentinmodena.fr:2999/courses/all')
+        .then((response) => {
+          this.allcourses = response.data.data
+        })
+        .catch((response) => {
+          alert('Erreur de récupération des Cours.')
         })
     }
   },
